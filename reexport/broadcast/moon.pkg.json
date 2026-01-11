@@ -1,0 +1,8 @@
+{
+    "import": [
+        {
+            "path": "moonbitlang/maria/internal/broadcast",
+            "alias": "broadcast0"
+        }
+    ]
+}

@@ -1,0 +1,8 @@
+{
+    "import": [
+        {
+            "path": "moonbitlang/maria/internal/httpx",
+            "alias": "httpx0"
+        }
+    ]
+}

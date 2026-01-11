@@ -1,0 +1,8 @@
+{
+    "import": [
+        {
+            "path": "moonbitlang/maria/internal/spawn",
+            "alias": "spawn0"
+        }
+    ]
+}
