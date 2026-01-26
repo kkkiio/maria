@@ -1,9 +1,0 @@
-{
-  "import": [
-    {
-      "path": "moonbitlang/x/path",
-      "alias": "xpath"
-    }
-  ],
-  "warn-list": "-24"
-}

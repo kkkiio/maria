@@ -51,7 +51,7 @@ async test "fix-syntax-error" (t : @test.Test) {
     guard result is Ok(output) else {
       fail("Expected Ok result but got: \{result}")
     }
-    @json.inspect(
+    json_inspect(
       output.message,
       content="File written and formatted successfully to main.mbt",
     )
@@ -191,7 +191,7 @@ async test "search-replace" (t : @test.Test) {
 #skip
 async test "fix-question-mark-error-propagation" (t : @test.Test) {
   @mock.run(t, retry=3, mock => {
-    let model = mock.model()
+    let model = mock.model(name=ClaudeHaiku4_5)
     mock.add_files({
       "moon.mod.json": Json::object({ "name": "example", "version": "0.1.0" }).stringify(
         indent=2,
@@ -232,7 +232,7 @@ async test "fix-question-mark-error-propagation" (t : @test.Test) {
     guard result is Ok(output) else {
       fail("Expected Ok result but got: \{result}")
     }
-    @json.inspect(
+    json_inspect(
       output.message,
       content="File written and formatted successfully to main.mbt",
     )
@@ -249,7 +249,7 @@ async test "fix-question-mark-error-propagation" (t : @test.Test) {
 #skip
 async test "fix-loop-syntax-error" (t : @test.Test) {
   @mock.run(t, retry=3, mock => {
-    let model = mock.model()
+    let model = mock.model(name=ClaudeHaiku4_5)
     mock.add_files({
       "moon.mod.json": Json::object({ "name": "example", "version": "0.1.0" }).stringify(
         indent=2,
@@ -287,7 +287,7 @@ async test "fix-loop-syntax-error" (t : @test.Test) {
     guard result is Ok(output) else {
       fail("Expected Ok result but got: \{result}")
     }
-    @json.inspect(
+    json_inspect(
       output.message,
       content="File written and formatted successfully to main.mbt",
     )
@@ -305,7 +305,7 @@ async test "fix-loop-syntax-error" (t : @test.Test) {
 #skip
 async test "fix-range-pattern-for-loop-error" (t : @test.Test) {
   @mock.run(t, retry=3, mock => {
-    let model = mock.model()
+    let model = mock.model(name=ClaudeHaiku4_5)
     mock.add_files({
       "moon.mod.json": Json::object({ "name": "example", "version": "0.1.0" }).stringify(
         indent=2,
@@ -338,7 +338,7 @@ async test "fix-range-pattern-for-loop-error" (t : @test.Test) {
     guard result is Ok(output) else {
       fail("Expected Ok result but got: \{result}")
     }
-    @json.inspect(
+    json_inspect(
       output.message,
       content="File written and formatted successfully to main.mbt",
     )
@@ -356,7 +356,7 @@ async test "fix-range-pattern-for-loop-error" (t : @test.Test) {
 #skip
 async test "fix-range-pattern-match-error" (t : @test.Test) {
   @mock.run(t, retry=3, mock => {
-    let model = mock.model()
+    let model = mock.model(name=ClaudeHaiku4_5)
     mock.add_files({
       "moon.mod.json": Json::object({ "name": "example", "version": "0.1.0" }).stringify(
         indent=2,
@@ -394,7 +394,7 @@ async test "fix-range-pattern-match-error" (t : @test.Test) {
     guard result is Ok(output) else {
       fail("Expected Ok result but got: \{result}")
     }
-    @json.inspect(
+    json_inspect(
       output.message,
       content="File written and formatted successfully to main.mbt",
     )
@@ -413,7 +413,7 @@ async test "fix-range-pattern-match-error" (t : @test.Test) {
 #skip
 async test "fix-range-pattern-if-is-error" (t : @test.Test) {
   @mock.run(t, retry=3, mock => {
-    let model = mock.model()
+    let model = mock.model(name=ClaudeHaiku4_5)
     mock.add_files({
       "moon.mod.json": Json::object({ "name": "example", "version": "0.1.0" }).stringify(
         indent=2,
@@ -454,7 +454,7 @@ async test "fix-range-pattern-if-is-error" (t : @test.Test) {
     guard result is Ok(output) else {
       fail("Expected Ok result but got: \{result}")
     }
-    @json.inspect(
+    json_inspect(
       output.message,
       content="File written and formatted successfully to main.mbt",
     )
@@ -473,7 +473,7 @@ async test "fix-range-pattern-if-is-error" (t : @test.Test) {
 #skip
 async test "fix-multiple-syntax-errors" (t : @test.Test) {
   @mock.run(t, retry=3, mock => {
-    let model = mock.model()
+    let model = mock.model(name=ClaudeHaiku4_5)
     mock.add_files({
       "moon.mod.json": Json::object({ "name": "example", "version": "0.1.0" }).stringify(
         indent=2,
@@ -529,7 +529,7 @@ async test "fix-multiple-syntax-errors" (t : @test.Test) {
     guard result is Ok(output) else {
       fail("Expected Ok result but got: \{result}")
     }
-    @json.inspect(
+    json_inspect(
       output.message,
       content="File written and formatted successfully to main.mbt",
     )

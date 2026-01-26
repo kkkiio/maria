@@ -1,3 +1,0 @@
-{
-  "test-import": ["moonbitlang/maria/internal/fsx", "moonbitlang/async"]
-}

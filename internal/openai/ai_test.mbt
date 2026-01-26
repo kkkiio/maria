@@ -182,7 +182,7 @@ async test "streaming" (t : @test.Test) {
         stream=true,
       ),
     )
-    @json.inspect(
+    json_inspect(
       chat_completion.choices[0].message.content
       .unwrap()
       .contains("Hello, World!"),
@@ -222,11 +222,11 @@ async test "streaming_tool_call" (t : @test.Test) {
         stream=true,
       ),
     )
-    @json.inspect(
+    json_inspect(
       chat_completion.choices[0].message.tool_calls[0].function.name,
       content="get_weather",
     )
-    @json.inspect(
+    json_inspect(
       @json.parse(
         chat_completion.choices[0].message.tool_calls[0].function.arguments.unwrap(),
       ),
@@ -280,7 +280,7 @@ async test "streaming_parallel_tool_call" (t : @test.Test) {
       tc_object.to_json()
     })
     tool_calls.sort_by((a, b) => a.stringify().compare(b.stringify()))
-    @json.inspect(tool_calls, content=[
+    json_inspect(tool_calls, content=[
       {
         "function": {
           "name": "get_weather",
@@ -326,7 +326,7 @@ async test "deepseek" {
   guard completion.choices[0].message.content is Some(content) else {
     fail("Expected message content")
   }
-  @json.inspect(content.contains("Hello"), content=true)
+  json_inspect(content.contains("Hello"), content=true)
 }
 
 ///|
@@ -357,7 +357,7 @@ async test "kimi-k2" {
   guard completion.choices[0].message.content is Some(content) else {
     fail("Expected message content")
   }
-  @json.inspect(content.contains("Hello"), content=true)
+  json_inspect(content.contains("Hello"), content=true)
 }
 
 ///|
@@ -387,5 +387,34 @@ async test "dashscope" {
   guard completion.choices[0].message.content is Some(content) else {
     fail("Expected message content")
   }
-  @json.inspect(content.contains("Hello"), content=true)
+  json_inspect(content.contains("Hello"), content=true)
+}
+
+///|
+async test "reasoning_effort_high" (t : @test.Test) {
+  @mock.run(t, mock => {
+    let api_key = mock.getenv("OPENAI_API_KEY")
+    let model = @model.new(
+      api_key~,
+      base_url=OPENROUTER_BASE_URL,
+      name="openai/gpt-5.2",
+      safe_zone_tokens=200000,
+    )
+    let completion = chat(
+      model~,
+      chat_completion(
+        model=model.model_name,
+        messages=[
+          system_message(content="You are a helpful assistant."),
+          user_message(content="Say 'Hello' and nothing else."),
+        ],
+        max_tokens=50,
+        reasoning_effort=High,
+      ),
+    )
+    guard completion.choices[0].message.content is Some(content) else {
+      fail("Expected message content")
+    }
+    json_inspect(content.contains("Hello"), content=true)
+  })
 }

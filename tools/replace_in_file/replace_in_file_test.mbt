@@ -4,7 +4,7 @@ async test "replace_in_file/create" (t : @test.Test) {
     let manager = @file.manager(cwd=mock.cwd.path())
     let args : Json = { "path": "nonexistent.txt" }
     let result = @replace_in_file.new(manager).call(args)
-    @json.inspect(result, content=[
+    json_inspect(result, content=[
       "Error",
       ["JsonDecodeError", ["", "Missing field replace"]],
       "Error: Invalid arguments provided to replace_in_file tool: JsonDecodeError((, \"Missing field replace\"))",
@@ -17,7 +17,7 @@ async test "replace_in_file/replace" (t : @test.Test) {
   @mock.run(t, mock => {
     let manager = @file.manager(cwd=mock.cwd.path())
     mock.add_json_tree({ "file.txt": "Old content" })
-    @json.inspect(@read_file.new(manager).call({ "path": "file.txt" }), content=[
+    json_inspect(@read_file.new(manager).call({ "path": "file.txt" }), content=[
       "Ok",
       {
         "path": "file.txt",
@@ -32,7 +32,7 @@ async test "replace_in_file/replace" (t : @test.Test) {
       "replace": "New content",
     }
     let result = @replace_in_file.new(manager).call(args)
-    @json.inspect(result, content=[
+    json_inspect(result, content=[
       "Ok",
       {
         "path": "file.txt",
@@ -53,7 +53,7 @@ async test "replace_in_file/search-is-required" (t : @test.Test) {
     mock.add_json_tree({ "file.txt": "Old content" })
     let args : Json = { "path": "file.txt", "replace": "New content" }
     let result = @replace_in_file.new(manager).call(args)
-    @json.inspect(result, content=[
+    json_inspect(result, content=[
       "Ok",
       {
         "path": "file.txt",
@@ -117,7 +117,7 @@ async test "replace_in_file/search-replace" (t : @test.Test) {
       "replace": "line 2 modified",
     }
     let result = @replace_in_file.new(manager).call(args)
-    @json.inspect(result, content=[
+    json_inspect(result, content=[
       "Ok",
       {
         "path": "file.txt",
@@ -135,7 +135,6 @@ async test "replace_in_file/search-replace" (t : @test.Test) {
 async test "replace_in_file/agentic" (t : @test.Test) {
   // TODO: add retries support
   @mock.run(timeout=60_000, retry=3, t, mock => {
-    let api_key = mock.getenv("OPENAI_API_KEY")
     let manager = @file.manager(cwd=mock.cwd.path())
     let file = mock.add_file(
       "file.txt",
@@ -146,12 +145,7 @@ async test "replace_in_file/agentic" (t : @test.Test) {
         #|line 4
       ),
     )
-    let model = @model.new(
-      api_key~,
-      base_url="https://openrouter.ai/api/v1",
-      name="qwen/qwen3-coder-plus",
-      safe_zone_tokens=200000,
-    )
+    let model = mock.model(name=ClaudeHaiku4_5)
     let agent = @agent.new(
       model,
       cwd=mock.cwd.path(),
@@ -183,7 +177,7 @@ async test "replace_in_file/agentic" (t : @test.Test) {
 ///|
 /// does not make sense to test render separately as it's just returning the error message
 // async test "replace_in_file/render" {
-//   @json.inspect(
+//   json_inspect(
 //     (@replace_in_file.new("").render)(@tool.error("Some error occurred")),
 //     content="Some error occurred",
 //   )
